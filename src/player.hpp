@@ -79,7 +79,7 @@ public:
     ///    \param map: a reference to the game map
     ///
 	////////////////////////////////////////////////////////////
-    void draw(sf::RenderWindow& window, Map& map);
+    void draw(sf::RenderWindow& window, const Map& map);
 
     
 
@@ -143,7 +143,7 @@ private:
     ///    \param wind: randomized wind coefficient
 	///
 	////////////////////////////////////////////////////////////
-    void setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind);
+    void setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, const Map& map, float wind);
 
 
     std::vector<Weapon> createWeapons() const;

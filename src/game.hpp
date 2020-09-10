@@ -18,6 +18,9 @@ class Game
 
 public:
 
+
+    Game() = default;
+
     ////////////////////////////////////////////////////////////
     ///
     ///    \Class constructor.
@@ -33,13 +36,6 @@ public:
     {
 		m_wind = -10 + static_cast <float> (rand() / (static_cast<float>(RAND_MAX)))*20;
 	}
-    
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Default destructor.
-    ///
-    ////////////////////////////////////////////////////////////    
-    ~Game() = default;
     
 
     ////////////////////////////////////////////////////////////
@@ -89,15 +85,14 @@ private:
     bool                        m_isShooting;
     sf::Texture                 m_explosionTexture;
 
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Creates the player objects for the game called from
-    ///     constructor.
-    ///    \param numberOfPlayers: amount of players in the game
-    ///
-    ////////////////////////////////////////////////////////////
-    std::vector<Player> generatePlayers(int numberOfPlayers) const;
     
+    ///
+    ///@brief Creates the players
+    ///
+    ///@param numberOfPlayers number of players to create
+    ///@return std::vector<Player> all players
+    ///
+    std::vector<Player> generatePlayers(int numberOfPlayers) const;
 
     ////////////////////////////////////////////////////////////
     ///

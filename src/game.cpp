@@ -236,29 +236,13 @@ void Game::drawExplosion(sf::Vector2u loc)
 void Game::checkHealths()
 {
 
-
-
-    auto healthCheck = [&](const Player& p){
-        if (p.getHealth() == 0){
-            return true;
-        }
-        return false;
-    };
-
-    std::remove_if(m_players.begin(), m_players.end(), healthCheck);
-
-    m_playersAlive = m_players.size();
-
-    /*
-
     for (auto it = m_players.begin(); it < m_players.end(); it++) {
-        if ((*it)->getHealth() == 0){
-            delete *it; //should take care of the allocated memory
+        if ((*it).getHealth() == 0){
             it = m_players.erase(it);
             m_playersAlive--;
          }
     }
-    */
+    
 }
 
 void Game::shotEffect(int tag)

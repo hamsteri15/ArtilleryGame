@@ -76,7 +76,7 @@ sf::Image Map::randomizeLand()
 
 }
 
-void Map::makeHole(sf::Vector2u loc, int r)
+void Map::makeHole(const sf::Vector2u& loc, int r)
 {
     //get a vector of pixels that represent the hole locations
     auto pixels = Calculate::circlePixels(m_size.x, m_size.y, loc.x, loc.y,r);
@@ -91,23 +91,14 @@ void Map::makeHole(sf::Vector2u loc, int r)
 }
 
 
-bool Map::isLand(sf::Vector2u loc)
+bool Map::isLand(const sf::Vector2u& loc) const
 {
 	if (!outOfBounds(loc)) return (m_image.getPixel(loc.x,loc.y) != sf::Color(135, 206, 250));
 	return false;
 }
 
-sf::Vector2u Map::getSize()
-{
-    return m_size;
-}
 
-sf::Texture Map::getTexture()
-{
-    return m_texture;
-}
-
-bool Map::outOfBounds(sf::Vector2u loc)
+bool Map::outOfBounds(const sf::Vector2u& loc) const
 {
     // Warning: unsigned will never be < 0
 	return (/*loc.x < 0 ||*/ loc.x > m_size.x || /*loc.y < 0 ||*/ loc.y > m_size.y);

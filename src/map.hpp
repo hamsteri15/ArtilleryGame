@@ -36,15 +36,6 @@ public:
     
     
 
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Randomly creates the initial land shape. Called
-    ///     from constructor.
-    ///    \Note that an image of the land must be stored to
-    ///     get access to the color-picker functions in SFML.
-    ///    
-    ////////////////////////////////////////////////////////////
-    sf::Image randomizeLand();
     
     
     
@@ -54,7 +45,7 @@ public:
     ///    \param loc: location to be checked    
     ///     
     ////////////////////////////////////////////////////////////
-    bool isLand(sf::Vector2u loc);
+    bool isLand(const sf::Vector2u& loc) const;
 
 
 
@@ -64,7 +55,7 @@ public:
 	///    \param loc: location to be checked    
 	///     
 	////////////////////////////////////////////////////////////
-	bool outOfBounds(sf::Vector2u loc);
+	bool outOfBounds(const sf::Vector2u& loc) const;
     
 
 
@@ -75,7 +66,7 @@ public:
     ///    \param loc: location of the hole    
     ///    \param r: radius of the hole
     ////////////////////////////////////////////////////////////
-    void makeHole(sf::Vector2u loc, int r);
+    void makeHole(const sf::Vector2u& loc, int r);
     
 
 
@@ -88,9 +79,13 @@ public:
     ///    \Obvious getter functions. Nothing special here.
     ///
     ////////////////////////////////////////////////////////////
-    sf::Vector2u getSize();
-    //
-    sf::Texture getTexture();
+    const sf::Vector2u& getSize() const {
+        return m_size;
+    }
+    
+    const sf::Texture& getTexture() const {
+        return m_texture;
+    }
 
     void draw(sf::RenderWindow& window);
     
@@ -102,6 +97,18 @@ private:
     sf::Texture     m_airTexture;
     sf::Image       m_image;    
     sf::Texture     m_texture;
+
+
+    
+    ////////////////////////////////////////////////////////////
+    ///
+    ///    \Randomly creates the initial land shape. Called
+    ///     from constructor.
+    ///    \Note that an image of the land must be stored to
+    ///     get access to the color-picker functions in SFML.
+    ///    
+    ////////////////////////////////////////////////////////////
+    sf::Image randomizeLand();
     
 };
 

@@ -63,7 +63,7 @@ int Player::shoot(sf::Vector2i aimed, std::vector<Player>& players, Map map, flo
 }
 
 
-void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind)
+void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, const Map& map, float wind)
 {
 
     
@@ -176,7 +176,7 @@ void Player::drawShot(sf::RenderWindow& window)
 
 }
 
-void Player::draw(sf::RenderWindow& window, Map& map)
+void Player::draw(sf::RenderWindow& window, const Map& map)
 {
     
 
