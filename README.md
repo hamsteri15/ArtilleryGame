@@ -9,9 +9,13 @@ is a bit messy but works.
 
 ###
 If you have a global installation of SFML the code should compile with 
+
 mkdir build
+
 cd build
+
 cmake ..
+
 make
 
 If you don't you need to modify the src/CMakeLists.txt to find the SFML headers and library binaries accordingly.
