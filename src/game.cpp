@@ -39,7 +39,7 @@ int Game::newGame()
 					m_playerInTurn->changeWeapon((int)event.key.code - 26 - 1);
 				}
 				if (event.key.code == sf::Keyboard::R) {
-					m_playerInTurn->getEquippedWeapon()->reload();
+					m_playerInTurn->getEquippedWeapon().reload();
 
 					m_playerInTurn = m_players[++turn % m_players.size()];
 
@@ -54,7 +54,7 @@ int Game::newGame()
             // Shoot
             if (event.type == sf::Event::MouseButtonPressed 
                 && event.mouseButton.button == sf::Mouse::Left 
-                && m_playerInTurn->getEquippedWeapon()->getAmmoCount() > 0 
+                && m_playerInTurn->getEquippedWeapon().getAmmoCount() > 0 
                 && !m_isShooting){
                 
                 m_isShooting = true;
@@ -193,11 +193,11 @@ void Game::drawWeaponStats()
     for (int i = 0; i < numberOfPlayers; i ++){
 
         oss << "Player " << (i+1) << std::endl;
-        oss << "Weapon: " << m_players[i]->getEquippedWeapon()->getName() << std::endl;
-        oss << "Ammo: " << m_players[i]->getEquippedWeapon()->getAmmoCount();
+        oss << "Weapon: " << m_players[i]->getEquippedWeapon().getName() << std::endl;
+        oss << "Ammo: " << m_players[i]->getEquippedWeapon().getAmmoCount();
         text.setString(oss.str());
         
-        if (m_players[i]->getEquippedWeapon()->getAmmoCount() > 0)
+        if (m_players[i]->getEquippedWeapon().getAmmoCount() > 0)
             text.setColor(sf::Color::Blue);
         else
             text.setColor(sf::Color::Red);
@@ -254,28 +254,28 @@ void Game::shotEffect(int tag)
     //ground hits
     if (tag == -1){
       
-        if (m_playerInTurn->getEquippedWeapon()->getName() == "Teleport")
+        if (m_playerInTurn->getEquippedWeapon().getName() == "Teleport")
             m_playerInTurn->setLocation(m_playerInTurn->getLastLocation());   
 
         //groundhit but player on effect radius
         else{     
-            m_map.makeHole(m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon()->getEffectRadius());
+            m_map.makeHole(m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon().getEffectRadius());
             for (Player* player : m_players){
-                if ( Calculate::belongsToCircle(player->getLocation(), m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon()->getEffectRadius()*1.5))
-                    player->reduceHealth(m_playerInTurn->getEquippedWeapon()->getDamage());                                
+                if ( Calculate::belongsToCircle(player->getLocation(), m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon().getEffectRadius()*1.5))
+                    player->reduceHealth(m_playerInTurn->getEquippedWeapon().getDamage());                                
             }     
         
         }
     }
     //direct player hits
     if (tag>=0){
-        m_players[tag]->reduceHealth(m_playerInTurn->getEquippedWeapon()->getDamage());
-        m_map.makeHole(m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon()->getEffectRadius());
+        m_players[tag]->reduceHealth(m_playerInTurn->getEquippedWeapon().getDamage());
+        m_map.makeHole(m_playerInTurn->getLastLocation(), m_playerInTurn->getEquippedWeapon().getEffectRadius());
     }
 
     
 
-    if (tag > -2 && m_playerInTurn->getEquippedWeapon()->getName() == "Cannon"){ 
+    if (tag > -2 && m_playerInTurn->getEquippedWeapon().getName() == "Cannon"){ 
     drawExplosion(m_playerInTurn->getLastLocation());
     }
     checkHealths();

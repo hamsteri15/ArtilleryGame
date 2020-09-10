@@ -15,67 +15,24 @@ class Weapon;
 class Player
 {
 public:
-    
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Class constructor.
-    ///    \param number: player number     
-    ///
-    ////////////////////////////////////////////////////////////
+
+    Player() = default;
+
     Player(int number);
 
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Class destructor. Frees the allocated memory for 
-    ///      weapons.
-    ///         
-    ///
-    ////////////////////////////////////////////////////////////
-    ~Player() {
-         for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it){
-            delete *it;
-         }
-        m_weapons.clear();
-    }
             
 
 
-    ////////////////////////////////////////////////////////////
-    /// 
-    ///    \Modifies the player location.
-    ///    \param location: new location 
-    ///
-    ////////////////////////////////////////////////////////////
     void setLocation(sf::Vector2u location); 
     
 
 
-    ////////////////////////////////////////////////////////////
-    /// 
-    ///    \Creates the weapons for the players. 
-    ///    \Called from the constructor.
-    ///
-    ////////////////////////////////////////////////////////////
-    std::vector<Weapon*> createWeapons();
-    
+    std::vector<Weapon> createWeapons() const;
 
+	void changeWeapon(size_t weaponIndex) {
+        m_equippedWeapon = weaponIndex;
+    }
 
-	////////////////////////////////////////////////////////////
-	/// 
-	///    \Changes the equipped weapon. 
-	///    \param weaponIndex: index of the weapon to be used.
-	///
-	////////////////////////////////////////////////////////////
-	void changeWeapon(int weaponIndex);
-   
-
-
-	////////////////////////////////////////////////////////////
-	/// 
-	///    \Reduces the player's health by the amount of damage taken. 
-	///    \param damage: amount of damage taken
-	///
-	////////////////////////////////////////////////////////////
 	void reduceHealth(int damage);
     
 
@@ -94,23 +51,13 @@ public:
 
 
 
-    bool isShooting();
-    ////////////////////////////////////////////////////////////
-	/// 
-	///    \Checks if the player is shooting.
-    ///
-	////////////////////////////////////////////////////////////
+    bool isShooting() {
+        return m_isShooting;
+    }
 
 
 
-    bool isHit(sf::Vector2u loc);
-    ////////////////////////////////////////////////////////////
-	/// 
-	///    \Checks if a location belongs to a rectangle drawn around
-    ///     the player.
-	///    \param loc: location to be checked
-    ///
-	////////////////////////////////////////////////////////////
+    bool isHit(const sf::Vector2u& loc) const;
 
 
 
@@ -137,29 +84,38 @@ public:
 
     
 
-    ////////////////////////////////////////////////////////////
-    ///
-    ///    \Obvious getter functions. Nothing special here.
-    ///
-    ////////////////////////////////////////////////////////////
-    int getHealth() const;
-    //
-	sf::Color getColor() const;
-    //
-	sf::Texture getTexture() const;
-    //
-    sf::Vector2u getLastLocation() const;
-    //    
-    Weapon* getEquippedWeapon() const;
-    //
-    sf::Vector2u getLocation() const;
-    //
-    int getNumber() const;
+    int getHealth() const {
+        return m_health;
+    }
+    
+	const sf::Color& getColor() const {
+        return m_color;
+    }
+    
+	const sf::Texture& getTexture() const {
+        return m_texture;
+    }
+    
+    const sf::Vector2u& getLastLocation() const {
+        return m_lastLocation;
+    }
+        
+    Weapon& getEquippedWeapon() {
+        return m_weapons[m_equippedWeapon];
+    }
+    
+    const sf::Vector2u& getLocation() const {
+        return m_location;
+    }
+
+    int getNumber() const {
+        return m_playerNumber;
+    }
 private:
     
     sf::Vector2u            m_location;
-    std::vector<Weapon*>     m_weapons;
-    Weapon*                 m_equippedWeapon;
+    std::vector<Weapon>     m_weapons;
+    size_t                  m_equippedWeapon;
     int                     m_health;
     sf::Texture             m_texture;
     sf::Color               m_color;

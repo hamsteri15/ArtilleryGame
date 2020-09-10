@@ -4,7 +4,7 @@ Player::Player(int number)
 {
     m_location = sf::Vector2u(0,0);
     m_weapons = createWeapons();
-    m_equippedWeapon = m_weapons[0];
+    m_equippedWeapon = 0;
     m_health = 100;
     m_texture.loadFromFile("../images/pixel-tank.png");
     m_color = sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255);
@@ -18,31 +18,22 @@ void Player::setLocation(sf::Vector2u location)
     m_location = location;  
 }
 
-sf::Vector2u Player::getLocation() const { return m_location; }
 
-int Player::getNumber() const { return m_playerNumber; }
 
-std::vector<Weapon*> Player::createWeapons()
+std::vector<Weapon> Player::createWeapons() const
 {
-    std::vector<Weapon*> weapons;
-    /*
-    weapons.push_back(new Weapon("Cannon",20,15,20,100));
-	weapons.push_back(new Weapon("Railgun", 5, 15, 3, 2));
-	weapons.push_back(new Weapon("Teleport", 1, 0, 20, 1));
-    */
-    weapons.push_back(new Weapon("Cannon",20,15,20,100, t_cannon));
-	weapons.push_back(new Weapon("Railgun", 5, 15, 3, 2, t_railgun));
-	weapons.push_back(new Weapon("Teleport", 1, 0, 20, 1, t_teleport));
+    std::vector<Weapon> weapons;
+    weapons.push_back(Weapon("Cannon",20,15,20,100, t_cannon));
+	weapons.push_back(Weapon("Railgun", 5, 15, 3, 2, t_railgun));
+	weapons.push_back(Weapon("Teleport", 1, 0, 20, 1, t_teleport));
     
 
     return weapons;
 }
 
 
-Weapon* Player::getEquippedWeapon() const { return m_equippedWeapon; }
 
 
-void Player::changeWeapon(int weaponIndex) { m_equippedWeapon = m_weapons[weaponIndex]; }
 
 
 int Player::shoot(sf::Vector2i aimed, std::vector<Player*> players, Map map, float wind)
@@ -51,9 +42,9 @@ int Player::shoot(sf::Vector2i aimed, std::vector<Player*> players, Map map, flo
     
     m_bulletCourseCount = 0;
     m_isShooting = true;
-    m_equippedWeapon->reduceAmmoCount();
+    getEquippedWeapon().reduceAmmoCount();
 
-    auto weaponTexture = m_equippedWeapon->getTexture();
+    auto weaponTexture = getEquippedWeapon().getTexture();
     m_bullet.setOrigin(weaponTexture.getSize().x / 2.f, weaponTexture.getSize().y / 2.f);
     m_bullet.setScale(0.03f,0.03f);
 
@@ -83,7 +74,7 @@ void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map
     // initialize bullet speed
     auto shootingForce = (aimed - sf::Vector2i(m_bulletLocations[0]))*400;
 	m_bulletAngles.push_back(Calculate::angle(sf::Vector2f(shootingForce)));
-	int mass = m_equippedWeapon->getAmmoWeight();
+	int mass = getEquippedWeapon().getAmmoWeight();
 	float energy = std::min(pow(pow(shootingForce.x, 2) + pow(shootingForce.y, 2), 0.5), (double)200*400);
     sf::Vector2f bulletSpeed = Calculate::initialSpeed(mass, energy, m_bulletAngles.back());
 
@@ -144,10 +135,6 @@ void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map
 
 
 
-sf::Vector2u Player::getLastLocation() const
-{
-    return m_lastLocation;   
-}
 
 
 
@@ -164,7 +151,7 @@ void Player::drawShot(sf::RenderWindow& window)
     sf::RectangleShape rect(tempVec);
     rect.setTexture(&text);
 
-    auto bulletTexture = m_equippedWeapon->getTexture();
+    auto bulletTexture = getEquippedWeapon().getTexture();
     m_bullet.setTexture(bulletTexture);
 
     //this is the trajectory loop
@@ -212,7 +199,7 @@ void Player::draw(sf::RenderWindow& window, Map& map)
 }
 
 
-bool Player::isHit(sf::Vector2u loc)
+bool Player::isHit(const sf::Vector2u& loc) const
 {
 
     sf::Vector2i rectLoc(m_location.x,m_location.y); 
@@ -226,11 +213,8 @@ bool Player::isHit(sf::Vector2u loc)
     
 }
 
-sf::Color Player::getColor() const { return m_color; }
 
-sf::Texture Player::getTexture() const { return m_texture; }
 
-int Player::getHealth() const { return m_health; }
 
 void Player::reduceHealth(int damage) 
 {
@@ -242,4 +226,3 @@ void Player::reduceHealth(int damage)
 
 }
 
-bool Player::isShooting() { return m_isShooting; }
