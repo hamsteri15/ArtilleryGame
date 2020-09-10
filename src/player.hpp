@@ -27,7 +27,6 @@ public:
     
 
 
-    std::vector<Weapon> createWeapons() const;
 
 	void changeWeapon(size_t weaponIndex) {
         m_equippedWeapon = weaponIndex;
@@ -47,7 +46,7 @@ public:
     ///    \param wind: randomized wind coefficient
     ///
 	////////////////////////////////////////////////////////////
-    int shoot(sf::Vector2i aimed, std::vector<Player*> players, Map map, float wind);
+    int shoot(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind);
 
 
 
@@ -100,6 +99,10 @@ public:
         return m_lastLocation;
     }
         
+    const Weapon& getEquippedWeapon() const{
+        return m_weapons[m_equippedWeapon];
+    }
+
     Weapon& getEquippedWeapon() {
         return m_weapons[m_equippedWeapon];
     }
@@ -140,7 +143,10 @@ private:
     ///    \param wind: randomized wind coefficient
 	///
 	////////////////////////////////////////////////////////////
-    void setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map map, float wind);
-    
+    void setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind);
+
+
+    std::vector<Weapon> createWeapons() const;
+
 };
 

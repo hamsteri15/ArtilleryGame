@@ -67,17 +67,24 @@ public:
     ///
     //////////////////////////////////////////////////////////// 
     void shotEffect(int tag);
-        
+
+    const Player& playerInTurn() const{
+        return m_players[m_playerInTurn];
+    }       
+
+    Player& playerInTurn(){
+        return m_players[m_playerInTurn];
+    }       
 
 private:
     
     sf::RenderWindow&           m_window;
-    std::vector<Player*>        m_players;
+    std::vector<Player>         m_players;
     Map                         m_map;
     int                         m_playersAlive;
     float                       m_wind;
     
-    Player*                     m_playerInTurn;
+    size_t                      m_playerInTurn;
     sf::Font                    m_font;
     bool                        m_isShooting;
     sf::Texture                 m_explosionTexture;
@@ -89,7 +96,7 @@ private:
     ///    \param numberOfPlayers: amount of players in the game
     ///
     ////////////////////////////////////////////////////////////
-    std::vector<Player*> generatePlayers(int numberOfPlayers);
+    std::vector<Player> generatePlayers(int numberOfPlayers) const;
     
 
     ////////////////////////////////////////////////////////////

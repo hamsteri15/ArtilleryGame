@@ -36,7 +36,7 @@ std::vector<Weapon> Player::createWeapons() const
 
 
 
-int Player::shoot(sf::Vector2i aimed, std::vector<Player*> players, Map map, float wind)
+int Player::shoot(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind)
 {
 
     
@@ -63,7 +63,7 @@ int Player::shoot(sf::Vector2i aimed, std::vector<Player*> players, Map map, flo
 }
 
 
-void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map map, float wind)
+void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player>& players, Map map, float wind)
 {
 
     
@@ -84,22 +84,22 @@ void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map
 
         //check if bullet hits a player
         for (unsigned int i = 0; i < players.size(); i++) {       
-            if (players[i]->isHit(m_bulletLocations[m_bulletCourseIndex])){
+            if (players[i].isHit(m_bulletLocations[m_bulletCourseIndex])){
                 m_targetTag = i;
-                goto stop;
+                break;
             }
          }    
 
         //check if bullet hits land
         if (map.isLand(m_bulletLocations[m_bulletCourseIndex])){
             m_targetTag = -1;
-            goto stop;
+            break;
         }
 
         //check if bullet out of bounds
         if (map.outOfBounds(m_bulletLocations[m_bulletCourseIndex])){
             m_targetTag = -2;
-            goto stop;
+            break;
         }
         //...bullet still flies
         m_bulletCourseIndex++;
@@ -109,7 +109,7 @@ void Player::setBulletLocs(sf::Vector2i aimed, std::vector<Player*> players, Map
         
     }
     
-    stop: 
+    
     
     //tama sama homma pitaisi kai tehda kun osuu suoraan pelaajaan
     if (m_targetTag >= -1){
