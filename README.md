@@ -23,7 +23,10 @@ If you don't you need to modify the src/CMakeLists.txt to find the SFML headers 
 
 ###
 Buttons:
+
 Left mouse click - shoot (force of the shot determined by the distance of cursor and the shooting player)
+
 Keybuttons [1-3] - change the weapon
+
 Keybutton R - reload
 
