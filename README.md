@@ -1,5 +1,8 @@
 ###
-A C++ Artillery Game based on SFML.
+A C++ Artillery Game based on SFML. This was a final project for a C++ course in Aalto university (year 2013). The code
+is a bit messy but works.
+
+
 
 ![Example image](/images/example.png)
 
